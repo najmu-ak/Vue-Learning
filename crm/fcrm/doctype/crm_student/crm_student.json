@@ -11,6 +11,8 @@
   "email",
   "phone",
   "course",
+  "teacher",
+  "organization",
   "status"
  ],
  "fields": [
@@ -40,6 +42,18 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Course"
+  },
+  {
+   "fieldname": "teacher",
+   "fieldtype": "Link",
+   "label": "Teacher",
+   "options": "User"
+  },
+  {
+   "fieldname": "organization",
+   "fieldtype": "Link",
+   "label": "Organization",
+   "options": "CRM Organization"
   },
   {
    "default": "Active",

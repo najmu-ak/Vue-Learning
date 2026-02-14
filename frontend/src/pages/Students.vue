@@ -30,6 +30,8 @@
                 <th class="text-left p-3">Email</th>
                 <th class="text-left p-3">Phone</th>
                 <th class="text-left p-3">Course</th>
+                <th class="text-left p-3">Teacher</th>
+                <th class="text-left p-3">Organization</th>
                 <th class="text-left p-3">Status</th>
                 <th class="text-left p-3">Actions</th>
               </tr>
@@ -41,6 +43,8 @@
                 <td class="p-3">{{ student.email }}</td>
                 <td class="p-3">{{ student.phone || '-' }}</td>
                 <td class="p-3">{{ student.course || '-' }}</td>
+                <td class="p-3">{{ student.teacher || '-' }}</td>
+                <td class="p-3">{{ student.organization || '-' }}</td>
                 <td class="p-3">
                   <Badge :variant="student.status === 'Active' ? 'subtle' : 'gray'" :label="student.status" />
                 </td>
@@ -68,6 +72,27 @@
           required />
         <FormControl v-model="createFormData.phone" :label="__('Phone')" placeholder="+1234567890" />
         <FormControl v-model="createFormData.course" :label="__('Course')" placeholder="Enter course name" />
+        
+        <!-- Link Field for Teacher -->
+        <div class="space-y-1.5">
+          <label class="block text-sm text-gray-700">{{ __('Teacher') }}</label>
+          <Link 
+            v-model="createFormData.teacher"
+            doctype="User"
+            :placeholder="__('Select Teacher')"
+          />
+        </div>
+        
+        <!-- Link Field for Organization -->
+        <div class="space-y-1.5">
+          <label class="block text-sm text-gray-700">{{ __('Organization') }}</label>
+          <Link 
+            v-model="createFormData.organization"
+            doctype="CRM Organization"
+            :placeholder="__('Select Organization')"
+          />
+        </div>
+        
         <FormControl v-model="createFormData.status" :label="__('Status')" type="select" :options="[
           { label: 'Active', value: 'Active' },
           { label: 'Inactive', value: 'Inactive' },
@@ -94,6 +119,27 @@
           required />
         <FormControl v-model="editFormData.phone" :label="__('Phone')" placeholder="+1234567890" />
         <FormControl v-model="editFormData.course" :label="__('Course')" placeholder="Enter course name" />
+        
+        <!-- Link Field for Teacher -->
+        <div class="space-y-1.5">
+          <label class="block text-sm text-gray-700">{{ __('Teacher') }}</label>
+          <Link 
+            v-model="editFormData.teacher"
+            doctype="User"
+            :placeholder="__('Select Teacher')"
+          />
+        </div>
+        
+        <!-- Link Field for Organization -->
+        <div class="space-y-1.5">
+          <label class="block text-sm text-gray-700">{{ __('Organization') }}</label>
+          <Link 
+            v-model="editFormData.organization"
+            doctype="CRM Organization"
+            :placeholder="__('Select Organization')"
+          />
+        </div>
+        
         <FormControl v-model="editFormData.status" :label="__('Status')" type="select" :options="[
           { label: 'Active', value: 'Active' },
           { label: 'Inactive', value: 'Inactive' },
@@ -125,6 +171,7 @@ import { ref, reactive, computed } from 'vue'
 import { Breadcrumbs, Button, Spinner, Badge, Dialog, FormControl } from 'frappe-ui'
 import LayoutHeader from '@/components/LayoutHeader.vue'
 import ContactsIcon from '@/components/Icons/ContactsIcon.vue'
+import Link from '@/components/Controls/Link.vue'
 import { createResource } from 'frappe-ui'
 
 const showCreateModal = ref(false)
@@ -142,6 +189,8 @@ const createFormData = reactive({
   email: '',
   phone: '',
   course: '',
+  teacher: '',
+  organization: '',
   status: 'Active'
 })
 
@@ -150,6 +199,8 @@ const editFormData = reactive({
   email: '',
   phone: '',
   course: '',
+  teacher: '',
+  organization: '',
   status: 'Active'
 })
 
@@ -157,7 +208,7 @@ const students = createResource({
   url: 'frappe.client.get_list',
   params: {
     doctype: 'CRM Student',
-    fields: ['name', 'student_name', 'email', 'phone', 'course', 'status'],
+    fields: ['name', 'student_name', 'email', 'phone', 'course', 'teacher', 'organization', 'status'],
     limit: 100
   },
   auto: true
@@ -172,6 +223,8 @@ function editStudent(student) {
   editFormData.email = student.email
   editFormData.phone = student.phone || ''
   editFormData.course = student.course || ''
+  editFormData.teacher = student.teacher || ''
+  editFormData.organization = student.organization || ''
   editFormData.status = student.status || 'Active'
 
   showEditModal.value = true
@@ -260,6 +313,8 @@ function closeCreateModal() {
   createFormData.email = ''
   createFormData.phone = ''
   createFormData.course = ''
+  createFormData.teacher = ''
+  createFormData.organization = ''
   createFormData.status = 'Active'
 }
 
@@ -273,6 +328,8 @@ function closeEditModal() {
   editFormData.email = ''
   editFormData.phone = ''
   editFormData.course = ''
+  editFormData.teacher = ''
+  editFormData.organization = ''
   editFormData.status = 'Active'
 }
 </script>
